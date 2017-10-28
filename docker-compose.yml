@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  openqamaster:
+    container_name: openqa-master
+    hostname: openqa-master
+    image: openqa/master
+    build : master
+    ports:
+      - 80:80
+    volumes:
+      - /var/lib/openqa/factory
+    environment:
+       - POSTGRESQL=1
+    links:
+      - openqapostgres:db
+
+  openqapostgres:
+    container_name: openqa-postgres
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=openqapassword
+      - POSTGRES_USER=openqa
+    expose:
+      - 5432
+    volumes:
+      - /var/lib/postgresql/data/
